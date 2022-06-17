@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { body, validationResult } = require("express-validator");
 const config = require("config");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const pool = require("../db.js");
 
@@ -12,7 +13,9 @@ router.post(
 	"/register",
 	[
 		body("email", "Uncorrect your email").isEmail(),
-		body("password", "Password must be at least 6 chars long").isLength({ min: 6 }),
+		body("password", "Password must be at least 6 chars long").isLength({
+			min: 6,
+		}),
 		body("name", "Name must be at least 3 chars long").isLength({ min: 3 }),
 	],
 	async (req, res) => {
@@ -57,13 +60,15 @@ router.post(
 router.post(
 	"/login",
 	[
-		body("email", "Uncorrect your email").isEmail().normilizeEmail(),
-		body("password", "Password must be at least 6 chars long").isLength({ min: 6 }),
+		body("email", "Uncorrect your email").isEmail().normalizeEmail(),
+		body("password", "Password must be at least 6 chars long").isLength({
+			min: 6,
+		}),
 	],
 	async (req, res) => {
 		try {
 			const errors = validationResult(req);
-			if (!errors.isEmpry()) {
+			if (!errors.isEmpty()) {
 				return res.status(400).json({
 					errors: errors.array(),
 					message: "Uncorrect your login data, try again",
@@ -71,20 +76,33 @@ router.post(
 			}
 
 			const { email, password } = req.body;
-			
+
 			console.log("email", email);
 			console.log("password", password);
-		
+
 			//find user with this email
-			//const user = await pool.query("SELECT * FROM auth_user WHERE email = $1", [email]);
+			const user = await pool.query(
+				"SELECT * FROM auth_user WHERE email = $1",
+				[email]
+			);
+			if (user && user.rowCount === 0) {
+				return res.status(400).json({ message: "User not found" });
+			}
 
 			//match password
+			const isMatch = await bcrypt.compare(password, user.rows[0].password);
+			if (!isMatch) {
+				return res.status(400).json({ message: "Uncorrect password" });
+			}
 
 			//create jwt
+			const token = jwt.sign(
+				{ userId: user.rows[0].user_id },
+				config.get("jwtSecret"),
+				{ expiresIn: "7d" }
+			);
 
-
-
-
+			res.json({ token, userId: user.rows[0].user_id });
 		} catch (err) {
 			console.error(err);
 		}

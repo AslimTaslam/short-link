@@ -2,7 +2,7 @@ import { useState, createContext } from "react";
 
 const ShortLinkContext = createContext();
 
-const ShortLinkContextProvider = () => {
+const ShortLinkContextProvider = (props) => {
 	const [errors, setErrors] = useState(undefined);
 	const [links, setLinks] = useState([]);
 

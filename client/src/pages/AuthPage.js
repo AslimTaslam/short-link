@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
-import { useService } from "../hooks/apiServiceHook.js";
+import { useService } from "../hooks/apiHook";
 import { ShortLinkContext } from "../context/ShortLinkContext";
-import RegCard from "../components/RegCard";
-import LogCard from "../components/LogCard";
+import RegisterCard from "../components/RegisterCard";
+import LoginCard from "../components/LoginCard";
 
 const AuthPage = () => {
-	const { createUser } = useService();
+	const { createUser, loginUser } = useService();
 	const { errors } = useContext(ShortLinkContext);
 	const [form, setForm] = useState({ email: "", password: "", name: "" });
 	const [card, setCard] = useState(false);
@@ -21,8 +21,7 @@ const AuthPage = () => {
 
 	const createHandler = async () => {
 		try {
-			const data = await createUser(form);
-			console.log(data);
+			await createUser(form);
 		} catch (err) {
 			console.error(err);
 		}
@@ -30,23 +29,23 @@ const AuthPage = () => {
 
 	const loginHandler = async () => {
 		try {
+			const data = await loginUser(form);
+			console.log(data);
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
-	console.log(form);
-
 	return (
 		card ? (
-		<RegCard
+		<RegisterCard
 			toggleCard={toggleCard}
 			changeHandler={changeHandler}
 			createHandler={createHandler}
 			form={form}
 		/>
 		) : (
-		<LogCard
+		<LoginCard
 			toggleCard={toggleCard}
 			changeHandler={changeHandler}
 			loginHandler={loginHandler}
