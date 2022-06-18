@@ -1,4 +1,4 @@
-const RegisterCard = ({toggleCard, changeHandler, createHandler, form}) => {
+const RegisterCard = ({toggleCard, changeHandler, createHandler, form, errors}) => {
 	return(
 		<div className="card text-light bg-info mt-2">
 			<div className="card-header">
@@ -40,13 +40,14 @@ const RegisterCard = ({toggleCard, changeHandler, createHandler, form}) => {
 					<input
 						type="text"
 						name="name"
-						className="form-control"
+						className="form-control mb-3"
 						id="name"
 						placeholder="name"
 						onChange={changeHandler}
 						value={form.name}
 					/>
 				</div>
+				<span className="text-danger"> {errors}</span>
 			</div>
 			<div className="card-footer">
 				<button className="btn btn-success mr-2" onClick={createHandler}>

@@ -1,4 +1,4 @@
-const LoginCard = ({toggleCard, changeHandler, loginHandler, form}) => {
+const LoginCard = ({toggleCard, changeHandler, loginHandler, form, errors}) => {
 	return(
 		<div className="card text-light bg-info mt-2">
 			<div className="card-header">
@@ -26,13 +26,14 @@ const LoginCard = ({toggleCard, changeHandler, loginHandler, form}) => {
 					<input
 						type="password"
 						name="password"
-						className="form-control"
+						className="form-control mb-3"
 						id="password"
 						placeholder="password"
 						onChange={changeHandler}
 						value={form.password}
 					/>
 				</div>
+				<span className="text-danger">{errors}</span>
 			</div>
 			<div className="card-footer">
 				<button className="btn btn-success mr-2" onClick={loginHandler}>
