@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import CreatePage from "./pages/CreatePage";
 import LinksPage from "./pages/LinksPage";
+import SettingPage from "./pages/SettingPage";
 import DetailPage from "./pages/DetailPage";
 
 const useRoutes = (isAuthenticated) => {
@@ -11,6 +12,7 @@ const useRoutes = (isAuthenticated) => {
 			<Routes>
 				<Route path="links" element={<LinksPage />} />
 				<Route path="create" element={<CreatePage />} />
+				<Route path="setting" element={<SettingPage />} />
 				<Route path="detail/:id" element={<DetailPage />} />
 				<Route path="*" element={<Navigate to="/links" replace />} />
 			</Routes>
