@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import { useRoutes } from "./routes.js";
+import { useRoutes } from "./routes";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ShortLinkContextProvider } from "./context/ShortLinkContext";
 import { AuthContext } from "./context/AuthContext";

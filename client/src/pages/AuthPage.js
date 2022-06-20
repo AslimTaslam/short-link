@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
 import { useService } from "../hooks/apiHook";
-import { useAuth } from "../hooks/authHook";
+import { AuthContext } from "../context/AuthContext";
 import { ShortLinkContext } from "../context/ShortLinkContext";
 import RegisterCard from "../components/RegisterCard";
 import LoginCard from "../components/LoginCard";
 
 const AuthPage = () => {
-	const { login } = useAuth();
+	const { login } = useContext(AuthContext);
 	const { createUser, loginUser } = useService();
 	const { errors, clearErrors } = useContext(ShortLinkContext);
 	const [form, setForm] = useState({ email: "", password: "", name: "" });
@@ -16,7 +16,7 @@ const AuthPage = () => {
 		setCard(!card);
 		setForm({ email: "", password: "", name: "" });
 		clearErrors();
-	}
+	};
 
 	const changeHandler = (e) => {
 		setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,14 +33,13 @@ const AuthPage = () => {
 	const loginHandler = async () => {
 		try {
 			const response = await loginUser(form);
-			login(response.data.token, response.data.userId);	
+			login(response.data.token, response.data.userId);
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
-	return (
-		card ? (
+	return card ? (
 		<RegisterCard
 			toggleCard={toggleCard}
 			changeHandler={changeHandler}
@@ -48,7 +47,7 @@ const AuthPage = () => {
 			form={form}
 			errors={errors}
 		/>
-		) : (
+	) : (
 		<LoginCard
 			toggleCard={toggleCard}
 			changeHandler={changeHandler}
@@ -56,7 +55,6 @@ const AuthPage = () => {
 			form={form}
 			errors={errors}
 		/>
-		)
 	);
 };
 
