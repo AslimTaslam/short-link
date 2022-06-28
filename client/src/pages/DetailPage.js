@@ -22,18 +22,30 @@ const DetailPage = () => {
 		navigate("/links");
 	};
 
+	const incClicks = () => {
+		let inc = link.clicks++;
+		setLink({ ...link, clicks: inc });
+	};
+
 	const backPage = () => {
 		navigate("/links");
 	};
 
 	useEffect(() => {
 		loadData();
-	}, []);
+	}, [incClicks]);
 
 	if (!ready) {
 		return <Loader />;
 	}
-	return <DetailCard link={link} deleteData={deleteData} backPage={backPage} />;
+	return (
+		<DetailCard
+			link={link}
+			deleteData={deleteData}
+			backPage={backPage}
+			incClicks={incClicks}
+		/>
+	);
 };
 
 export default DetailPage;

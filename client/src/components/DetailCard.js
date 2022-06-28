@@ -1,4 +1,4 @@
-const DetailCard = ({link, deleteData, backPage}) => {
+const DetailCard = ({ link, deleteData, backPage, incClicks }) => {
 	return (
 		<>
 			<h2 className="text-center text-info mb-3">Detail link</h2>
@@ -22,6 +22,7 @@ const DetailCard = ({link, deleteData, backPage}) => {
 							rel="noreferrer noopener"
 							target="_blank"
 							href={link.short_link}
+							onClick={incClicks}
 						>
 							{link.short_link}
 						</a>
@@ -48,16 +49,13 @@ const DetailCard = ({link, deleteData, backPage}) => {
 					<button className="btn btn-danger mr-2" onClick={deleteData}>
 						Delete
 					</button>
-					<button
-						className="btn btn-warning float-right"
-						onClick={backPage}
-					>
+					<button className="btn btn-warning float-right" onClick={backPage}>
 						Go back
 					</button>
 				</div>
 			</div>
 		</>
 	);
-}
+};
 
 export default DetailCard;

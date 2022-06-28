@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useService } from "../hooks/apiHook";
 import { AuthContext } from "../context/AuthContext";
-import ModalUserEdit from "../components/ModalUserEdit";
+import SettingCard from "../components/SettingCard";
 
 const SettingPage = () => {
 	const { logout } = useContext(AuthContext);
@@ -15,8 +15,8 @@ const SettingPage = () => {
 	});
 
 	const closeModal = () => {
-		loadData();	
-	}
+		loadData();
+	};
 
 	const changeHandler = (e) => {
 		setForm({ ...form, [e.target.name]: e.target.value });
@@ -53,55 +53,15 @@ const SettingPage = () => {
 	return (
 		<>
 			<h2 className="text-center text-info mb-3">SettingPage</h2>
-			<div className="card border-info">
-				<div className="card-body">
-					<div className="pb-3 mb-3 border-bottom">
-						<span>
-							Name: <strong>{form.name}</strong>
-						</span>
-						<ModalUserEdit
-							form={form}
-							name="name"
-							changeHandler={changeHandler}
-							editUserData={editUserData}
-							closeModal={closeModal}
-						/>
-					</div>
-					<div className="pb-3 mb-3 border-bottom">
-						<span>
-							Email: <strong>{form.email}</strong>
-						</span>
-						<ModalUserEdit
-							form={form}
-							name="email"
-							changeHandler={changeHandler}
-							editUserData={editUserData}
-							closeModal={closeModal}
-						/>
-					</div>
-					<div>
-						<span>
-							Password: <strong>******</strong>
-						</span>
-						<ModalUserEdit
-							form={form}
-							name="password"
-							changeHandler={changeHandler}
-							editUserData={editUserData}
-							closeModal={closeModal}
-						/>	
-					</div>
-				</div>
-				<div className="card-footer">
-					<button
-						className="btn btn-danger"
-						onClick={deleteUserData}
-					>Delete user</button>
-				</div>
-			</div>
+			<SettingCard
+				form={form}
+				changeHandler={changeHandler}
+				closeModal={closeModal}
+				editUserData={editUserData}
+				deleteUserData={deleteUserData}
+			/>
 		</>
 	);
 };
-
 
 export default SettingPage;
