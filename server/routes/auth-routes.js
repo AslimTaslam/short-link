@@ -77,9 +77,6 @@ router.post(
 
 			const { email, password } = req.body;
 
-			console.log("email", email);
-			console.log("password", password);
-
 			//find user with this email
 			const user = await pool.query(
 				"SELECT * FROM auth_user WHERE email = $1",

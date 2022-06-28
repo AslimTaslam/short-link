@@ -9,10 +9,10 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 
 const App = () => {
-	const { login, logout, token, userId, ready } = useAuth();
+	const { login, logout, token, userId } = useAuth();
 	const isAuthenticated = !!token;
 	const routes = useRoutes(isAuthenticated);
-
+ 
 	return (
 		<ErrorBoundary>
 			<AuthContext.Provider
