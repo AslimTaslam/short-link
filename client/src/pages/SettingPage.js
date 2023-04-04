@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
-import { useService } from '../hooks/apiHook';
+import { useService } from '../services/apiHook';
 import { AuthContext } from '../context/AuthContext';
-import SettingCard from '../components/SettingCard';
+import { SettingCard } from '../components/SettingCard';
 
 const SettingPage = () => {
   const { logout } = useContext(AuthContext);

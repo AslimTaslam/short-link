@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useService } from '../hooks/apiHook';
-import DetailCard from '../components/DetailCard';
-import Loader from '../components/Loader';
+import { useService } from '../services/apiHook';
+import { DetailCard } from '../components/DetailCard';
+import { Loader } from '../components/Loader';
 
 const DetailPage = () => {
   const navigate = useNavigate();
@@ -11,13 +11,13 @@ const DetailPage = () => {
   const [link, setLink] = useState({});
   const [ready, setReady] = useState(false);
 
-  const loadData = useCallback(async () => {
+  const loadData = async () => {
     console.log('load');
     const res = await getLink(id);
     console.log(res);
     setLink(res.data);
     setReady(true);
-  }, [getLink, id]);
+  };
 
   const deleteData = async () => {
     await deleteLink(id);
@@ -35,7 +35,7 @@ const DetailPage = () => {
 
   useEffect(() => {
     loadData();
-  }, [loadData]);
+  }, []);
 
   if (!ready) {
     return <Loader />;

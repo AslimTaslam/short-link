@@ -13,9 +13,9 @@ export const getUserController = async (req, res) => {
     const email = user.rows[0].email;
     const name = user.rows[0].name;
 
-    res.status(201).json({ email, name });
-  } catch (err) {
-    console.error(err.message);
+    res.status(200).json({ email, name });
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
 
@@ -50,18 +50,18 @@ export const editUserController = async (req, res) => {
 
     const editUser = await editUserPasswordById(hashedPassword, userId);
 
-    res.json(editUser);
-  } catch (err) {
-    console.error(err.message);
+    res.status(200).json(editUser);
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
 
 export const deleteUserController = async (req, res) => {
-  const { userId } = req.user;
-  await deleteUserById(userId);
-  res.json({ message: 'User has been deleted' });
   try {
-  } catch (err) {
-    console.error(err.message);
+    const { userId } = req.user;
+    await deleteUserById(userId);
+    res.status(200).json({ message: 'User has been deleted' });
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };

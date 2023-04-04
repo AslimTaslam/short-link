@@ -15,7 +15,9 @@ export const createLinkController = async (req, res) => {
 
     const exist = await getLinkByUrl(linkUrl);
     if (exist.rowCount > 0) {
-      return res.json(exist.rows[0]);
+      res.json(exist.rows[0]);
+
+      return;
     }
 
     const code = shortid.generate(10);
@@ -24,8 +26,8 @@ export const createLinkController = async (req, res) => {
     const newLink = await createLink(userId, linkUrl, shortLink, code);
 
     res.status(201).json(newLink.rows[0]);
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
 
@@ -35,10 +37,12 @@ export const getLinksController = async (req, res) => {
     const links = await getLinksByUserId(userId);
     if (links.rowCount === 0) {
       res.status(400).json({ message: 'Not founf links' });
+
+      return;
     }
     res.status(201).json(links.rows);
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
 
@@ -47,11 +51,13 @@ export const getLinkController = async (req, res) => {
     const { code } = req.params;
     const link = await getLinkByCode(code);
     if (link.rowCount === 0) {
-      return res.status(400).json({ message: 'Link not found' });
+      res.status(400).json({ message: 'Link not found' });
+
+      return;
     }
     res.status(201).json(link.rows[0]);
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
 
@@ -61,10 +67,12 @@ export const deleteLinkController = async (req, res) => {
     const link = await getLinkByCode(code);
     if (link.rowCount === 0) {
       res.status(400).json({ message: 'Link not found' });
+
+      return;
     }
     await deleteLinkByCode(code);
     res.status(201).json({ message: 'Link has been deleted' });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };

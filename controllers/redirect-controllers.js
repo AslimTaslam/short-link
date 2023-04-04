@@ -9,15 +9,16 @@ export const redirectController = async (req, res) => {
 
     const link = await getLinkByCode(code);
 
-    if (link.rowCount > 0) {
-      let incClicks = +link.rows[0].clicks + 1;
-      console.log(incClicks);
-      await addClickToLinkByCode(incClicks, code);
+    if (link.rowCount === 0) {
+      res.status(400).json({ message: 'Link not found' });
 
-      return res.redirect(link.rows[0].link);
+      return;
     }
-    res.status(400).json({ message: 'Link not found' });
-  } catch (err) {
-    console.error(err.message);
+    let incClicks = +link.rows[0].clicks + 1;
+    await addClickToLinkByCode(incClicks, code);
+
+    res.redirect(link.rows[0].link);
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
