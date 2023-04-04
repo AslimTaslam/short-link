@@ -1,29 +1,8 @@
 import { Router } from 'express';
-
-import {
-  getLinkByCode,
-  addClickToLinkByCode,
-} from '../services/link-services.js';
+import { redirectController } from '../controllers/redirect-controllers.js';
 
 const router = Router();
 
-router.get('/:code', async (req, res) => {
-  try {
-    const { code } = req.params;
-
-    const link = await getLinkByCode(code);
-
-    if (link.rowCount > 0) {
-      let incClicks = +link.rows[0].clicks + 1;
-      console.log(incClicks);
-      await addClickToLinkByCode(incClicks, code);
-
-      return res.redirect(link.rows[0].link);
-    }
-    res.status(400).json({ message: 'Link not found' });
-  } catch (err) {
-    console.error(err.message);
-  }
-});
+router.get('/:code', redirectController);
 
 export { router as redirectRouter };
