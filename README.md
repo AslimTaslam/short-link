@@ -16,7 +16,7 @@ A simple link shortener fullstack application (PERN stack).
 
 ![Example](https://github.com/AslimTaslam/short-link/blob/main/quickExample2.png 'Shortlink2')
 
-![Example](https://github.com/AslimTaslam/short-link/blob/main/quickExample2.png 'Shortlink3')
+![Example](https://github.com/AslimTaslam/short-link/blob/main/quickExample3.png 'Shortlink3')
 
 ## Technology
 
